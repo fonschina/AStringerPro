@@ -58,7 +58,7 @@ namespace MissionPlanner.Utilities
             Offset = new System.Drawing.Point(-Size.Width/2, -Size.Height/2);
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             base.OnRender(g);
 

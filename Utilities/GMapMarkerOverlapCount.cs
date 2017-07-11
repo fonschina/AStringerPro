@@ -50,7 +50,7 @@ namespace MissionPlanner.Utilities
 
         static SolidBrush[] colorbrushs;
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             DateTime start = DateTime.Now;
             var pos = Overlay.Control.FromLatLngToLocal(Position);
@@ -134,7 +134,7 @@ namespace MissionPlanner.Utilities
             Console.WriteLine("Add "+(DateTime.Now - start));
         }
 
-        public void drawLegend(Graphics g)
+        public void drawLegend(Render g)
         {
             // top left corner
             var tl = Overlay.Control.FromLocalToLatLng(0, 0);

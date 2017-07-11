@@ -638,7 +638,7 @@ union px4_custom_mode {
             Offset = new System.Drawing.Point(-Size.Width/2, -Size.Height/2 - 20);
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             base.OnRender(g);
 
@@ -699,7 +699,7 @@ union px4_custom_mode {
             Size = icong.Size;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -760,7 +760,7 @@ union px4_custom_mode {
             }
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             if (selected)
             {
@@ -803,7 +803,7 @@ union px4_custom_mode {
             Size = SizeSt;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -865,7 +865,7 @@ union px4_custom_mode {
             Size = SizeSt;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -927,7 +927,7 @@ union px4_custom_mode {
             Size = SizeSt;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -988,7 +988,7 @@ union px4_custom_mode {
             Size = icon.Size;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -1085,7 +1085,7 @@ union px4_custom_mode {
             Size = icon.Size;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -1169,7 +1169,7 @@ union px4_custom_mode {
             Size = icon.Size;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -1226,7 +1226,7 @@ union px4_custom_mode {
             Size = icon.Size;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -1276,7 +1276,7 @@ union px4_custom_mode {
             this.target = target;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);

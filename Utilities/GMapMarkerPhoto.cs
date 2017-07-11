@@ -62,7 +62,7 @@ namespace MissionPlanner.Utilities
             footprintpoly.Stroke = Pens.Crimson;
         }
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
             if (shotBellowMinInterval)
                 g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);

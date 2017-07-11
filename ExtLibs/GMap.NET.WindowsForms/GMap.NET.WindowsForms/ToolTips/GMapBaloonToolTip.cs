@@ -34,7 +34,7 @@ namespace GMap.NET.WindowsForms.ToolTips
          Fill = Brushes.Yellow;   
       }
 
-      public override void OnRender(Graphics g)
+      public override void OnRender(Render g)
       {
          System.Drawing.Size st = g.MeasureString(Marker.ToolTipText, Font).ToSize();
          System.Drawing.Rectangle rect = new System.Drawing.Rectangle(Marker.ToolTipPosition.X, Marker.ToolTipPosition.Y - st.Height, st.Width + TextPadding.Width, st.Height + TextPadding.Height);

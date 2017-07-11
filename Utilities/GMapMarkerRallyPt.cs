@@ -43,7 +43,7 @@ namespace MissionPlanner.Utilities
         static readonly Point[] Arrow = new Point[]
         {new Point(-7, 7), new Point(0, -22), new Point(7, 7), new Point(0, 2)};
 
-        public override void OnRender(Graphics g)
+        public override void OnRender(Render g)
         {
 #if !PocketPC
             g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);

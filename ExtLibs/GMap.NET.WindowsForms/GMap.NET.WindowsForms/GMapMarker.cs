@@ -266,7 +266,7 @@ namespace GMap.NET.WindowsForms
          this.Position = pos;
       }
 
-      public virtual void OnRender(Graphics g)
+      public virtual void OnRender(Render g)
       {
          //
       }

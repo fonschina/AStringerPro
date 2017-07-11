@@ -27,7 +27,7 @@ namespace GMap.NET.WindowsForms
    /// <summary>
    /// GMap.NET control for Windows Forms
    /// </summary>   
-   public partial class GMapControl : UserControl, Interface
+   public partial class GMapControl : Render, Interface
    {
 #if !PocketPC
       /// <summary>
@@ -510,7 +510,7 @@ namespace GMap.NET.WindowsForms
 #endif
       double zoomReal;
       Bitmap backBuffer;
-      Graphics gxOff;
+       Render gxOff;
 
 #if !DESIGN
       /// <summary>
@@ -519,11 +519,11 @@ namespace GMap.NET.WindowsForms
       public GMapControl()
       {
 #if !PocketPC
-          if (!IsDesignerHosted)
+            if (!IsDesignerHosted)
 #endif
           {
 #if !PocketPC
-              this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+              //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
               this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
               this.SetStyle(ControlStyles.UserPaint, true);
               this.SetStyle(ControlStyles.Opaque, true);
@@ -624,7 +624,7 @@ namespace GMap.NET.WindowsForms
       /// render map in GDI+
       /// </summary>
       /// <param name="g"></param>
-      void DrawMap(Graphics g)
+      void DrawMap(Render g)
       {
          if(Core.updatingBounds || MapProvider == EmptyProvider.Instance || MapProvider == null)
          {
@@ -1402,9 +1402,15 @@ namespace GMap.NET.WindowsForms
       public Color EmptyMapBackground = Color.WhiteSmoke;
 
 #if !DESIGN
-      protected override void OnPaint(PaintEventArgs e)
+      protected override void OnPaint(PaintEventArgs pe)
       {
-         if(ForceDoubleBuffer)
+          Render g = this;
+
+          MakeCurrent();
+
+            g.ResetTransform();
+
+         if (ForceDoubleBuffer)
          {
             #region -- manual buffer --
             if(gxOff != null && backBuffer != null)
@@ -1451,16 +1457,16 @@ namespace GMap.NET.WindowsForms
                   OnPaintOverlays(gxOff);
                }
 
-               e.Graphics.DrawImage(backBuffer, 0, 0);
+                g.DrawImage(backBuffer, 0, 0);
             }
             #endregion
          }
          else
          {
-            e.Graphics.Clear(EmptyMapBackground);
+             g.Clear(EmptyMapBackground);
 
 #if !PocketPC
-            if(MapRenderTransform.HasValue)
+                if (MapRenderTransform.HasValue)
             {
                if(!MobileMode)
                {
@@ -1470,22 +1476,22 @@ namespace GMap.NET.WindowsForms
                   var pos = center;
                   pos.OffsetNegative(delta);
 
-                  e.Graphics.RotateTransform(-Bearing);
+                   g.RotateTransform(-Bearing);
 
-                  e.Graphics.ScaleTransform(MapRenderTransform.Value, MapRenderTransform.Value, MatrixOrder.Append);
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                   g.ScaleTransform(MapRenderTransform.Value, MapRenderTransform.Value, MatrixOrder.Append);
+                   g.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
-                  DrawMap(e.Graphics);
-                  e.Graphics.ResetTransform();
+                  DrawMap(g);
+                   g.ResetTransform();
 
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                   g.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
                }
                else
                {
-                  DrawMap(e.Graphics);
-                  e.Graphics.ResetTransform();
+                  DrawMap(g);
+                   g.ResetTransform();
                }
-               OnPaintOverlays(e.Graphics);
+               OnPaintOverlays(g);
             }
             else
 #endif
@@ -1493,10 +1499,10 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
                if(IsRotated)
                {
-                  #region -- rotation --
+                        #region -- rotation --
 
-                  e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                  e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                   g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                   g.SmoothingMode = SmoothingMode.AntiAlias;
 
                   var center = new GPoint(Width / 2, Height / 2);
                   var delta = center;
@@ -1504,14 +1510,14 @@ namespace GMap.NET.WindowsForms
                   var pos = center;
                   pos.OffsetNegative(delta);
 
-                  e.Graphics.RotateTransform(-Bearing);
+                   g.RotateTransform(-Bearing);
 
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                   g.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
-                  DrawMap(e.Graphics);
-                  e.Graphics.ResetTransform();
+                  DrawMap(g);
+                   g.ResetTransform();
 
-                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
+                   g.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
                   #endregion
                }
@@ -1521,17 +1527,21 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
                   if(!MobileMode)
                   {
-                     e.Graphics.TranslateTransform(Core.renderOffset.X, Core.renderOffset.Y);
+                      g.TranslateTransform(Core.renderOffset.X, Core.renderOffset.Y);
                   }
 #endif
-                  DrawMap(e.Graphics);
-                  OnPaintOverlays(e.Graphics);
+                  DrawMap(g);
+                  OnPaintOverlays(g);
                }
             }
          }
 
-         base.OnPaint(e);
-      }
+
+            this.SwapBuffers();
+
+
+          base.OnPaint(pe);
+        }
 #endif
 
 #if !PocketPC
@@ -1624,7 +1634,7 @@ namespace GMap.NET.WindowsForms
       /// override, to render something more
       /// </summary>
       /// <param name="g"></param>
-      protected virtual void OnPaintOverlays(Graphics g)
+      protected virtual void OnPaintOverlays(Render g)
       {
 #if !PocketPC
          g.SmoothingMode = SmoothingMode.Default;
@@ -1763,7 +1773,7 @@ namespace GMap.NET.WindowsForms
 
       protected override void OnSizeChanged(EventArgs e)
       {
-         base.OnSizeChanged(e);
+            base.OnSizeChanged(e);
 #else
       protected override void OnResize(EventArgs e)
       {
@@ -3181,7 +3191,7 @@ namespace GMap.NET.WindowsForms
 #endif
    }
 
-   public enum ScaleModes
+    public enum ScaleModes
    {
       /// <summary>
       /// no scaling

@@ -469,15 +469,15 @@ namespace GDAL
 
             Form frm = new Form();
             GMap.NET.WindowsForms.GMapControl map = new GMap.NET.WindowsForms.GMapControl();
-            map.Dock = DockStyle.Fill;
-            frm.Controls.Add(map);
-            map.MapProvider = GDALProvider.Instance;
+            //map.Dock = DockStyle.Fill;
+            //frm.Controls.Add(map);
+            //map.MapProvider = GDALProvider.Instance;
 
-            map.MaxZoom = 22;
+            //map.MaxZoom = 22;
 
             //map.Manager.Mode = AccessMode.ServerOnly;
 
-            map.Invalidate();
+            //map.Invalidate();
 
             frm.ShowDialog();
         }

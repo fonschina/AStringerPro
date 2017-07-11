@@ -287,7 +287,7 @@ namespace GMap.NET.WindowsForms
       /// renders objects/routes/polygons
       /// </summary>
       /// <param name="g"></param>
-      public virtual void OnRender(Graphics g)
+      public virtual void OnRender(Render g)
       {
          if(Control != null)
          {
